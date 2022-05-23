@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Register form</h1>
+    <form action="#" name="register-form">
+        <div>Username <input type="text" name="username"></div>
+        <div>Password <input type="text" name="password"></div>
+        <div>Confirm Password <input type="text" name="confirm-password"></div>
+        <div>
+            <input type="button" name="btn-submit" value="Save">
+            <input type="reset" value="Reset">
+        </div>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var registerApiUrl = 'http://localhost:8080/api/v1/register'
+            document.forms['register-form']['btn-submit'].onclick = function () {
+                var username = document.forms['register-form']['username'].value;
+                var password = document.forms['register-form']['password'].value;
+                var confirmPassword = document.forms['register-form']['confirm-password'].value;
+                if (password!= confirmPassword){
+                    alert('Password and confirm password are not the same!');
+                    return;
+                }
+                var obj = {
+                    "username": username,
+                    "password": password
+                };
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200){
+                        alert('Register success!');
+                        window.location.href = '/spring-boot-security-client/login.html'
+                    }
+                }
+                xhr.open('POST', registerApiUrl, false);
+                xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+                xhr.send(JSON.stringify(obj));
+            }
+;        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Login form</h1>
+<form action="#" name="login-form">
+    <div>Username <input type="text" name="username"></div>
+    <div>Password <input type="text" name="password"></div>
+    <div>
+        <input type="button" name="btn-submit" value="Save">
+        <input type="reset" value="Reset">
+    </div>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var registerApiUrl = 'http://localhost:8080/api/v1/login'
+        document.forms['login-form']['btn-submit'].onclick = function () {
+            var username = document.forms['login-form']['username'].value;
+            var password = document.forms['login-form']['password'].value;
+
+            var obj = {
+                "username": username,
+                "password": password
+            };
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200){
+                    alert('login success!');
+                    var jsonObject = JSON.parse( xhr.responseText);
+                    localStorage.setItem('token',jsonObject.accessToken);
+                    // window.location.href = '/spring-boot-security-client/user-article.html'
+                }
+            }
+            xhr.open('POST', registerApiUrl, false);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+            xhr.send(JSON.stringify(obj));
+        };
+    })
+</script>
+</body>
+</html>
