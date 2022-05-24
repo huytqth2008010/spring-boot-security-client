@@ -5,6 +5,37 @@
     <title>Title</title>
 </head>
 <body>
-
+<h1>Admin Product</h1>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var token = localStorage.getItem('token');
+        if(token === null || token === undefined){
+            window.location.href = '/spring-boot-security-client/login.html';
+        }
+        var ApiUrl = 'http://localhost:8080/api/v1/admin/products'
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 ){
+                if(xhr.status === 200){
+                    var jsonObject = JSON.parse(xhr.responseText);
+                    var listArticle = document.getElementById('articles');
+                    var content = ``;
+                    for (var i = 0;i< jsonObject.length; i++){
+                        content += `<li>${jsonObject[i].name}</li>`
+                    }
+                    console.log(content);
+                    listArticle.innerHTML = content;
+                }else if(xhr.status == 403){
+                    alert('Please login to continue!');
+                    window.location.href = '/spring-boot-security-client/login.html';
+                }
+            }
+        }
+        xhr.open('GET', ApiUrl, false);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+        xhr.setRequestHeader('Authorization', 'Bearer' + token)
+        xhr.send();
+    })
+</script>
 </body>
 </html>

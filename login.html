@@ -31,7 +31,7 @@
                     alert('login success!');
                     var jsonObject = JSON.parse( xhr.responseText);
                     localStorage.setItem('token',jsonObject.accessToken);
-                    // window.location.href = '/spring-boot-security-client/user-article.html'
+                     window.location.href = '/spring-boot-security-client/user-article.html'
                 }
             }
             xhr.open('POST', registerApiUrl, false);
